@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:orientation="vertical"
+    android:id="@+id/main"
+    android:gravity="center"
+    tools:context=".MainActivity">
+
+
+    <ScrollView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        >
+
+        <LinearLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                style="@style/textview"
+                android:text="AL"
+                android:textSize="100dp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:background="@drawable/custom_logo"
+                android:textColor="@color/white"
+                android:layout_marginTop="60dp"
+                android:paddingHorizontal="10dp"
+                />
+
+            <TextView
+                style="@style/textview"
+                android:text="Ahmedabad Live"
+                android:textSize="50dp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="450dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/custom_login"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/textview"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="Login"
+                    android:textSize="40dp" />
+
+                <EditText
+                    android:id="@+id/main_username"
+                    style="@style/edittext_center_bold_margin_padding"
+                    android:drawableLeft="@drawable/user"
+                    android:hint="Username"
+                    />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <EditText
+                        android:id="@+id/main_password"
+                        style="@style/edittext_center_bold_margin_padding"
+                        android:layout_marginTop="10dp"
+                        android:drawableLeft="@drawable/lock"
+                        android:hint="Password"
+                        android:inputType="textPassword"
+                        android:maxLength="12"
+                        />
+
+                    <ImageView
+                        android:id="@+id/main_not_visible"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/disabled_visible_24"
+                        android:layout_gravity="end"
+                        android:layout_marginEnd="40dp"
+                        android:layout_marginTop="20dp"
+                        />
+
+                    <ImageView
+                        android:id="@+id/main_visible"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/visible_24"
+                        android:layout_gravity="end"
+                        android:layout_marginEnd="40dp"
+                        android:layout_marginTop="20dp"
+                        />
+
+                </FrameLayout>
+
+
+                <TextView
+                    android:id="@+id/main_forgotpassword"
+                    style="@style/textview"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="35dp"
+                    android:padding="1dp"
+                    android:text="Forgot Password?" />
+
+                <Button
+                    android:id="@+id/main_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="35dp"
+                    android:layout_marginTop="20dp"
+                    android:text="Login" />
+
+                <TextView
+                    style="@style/textview"
+                    android:layout_gravity="center"
+                    android:padding="10dp"
+                    android:text="or"
+                    android:textSize="15dp" />
+
+                <Button
+                    android:id="@+id/main_signup"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginHorizontal="35dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Signup" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -1,6 +1,8 @@
 package com.example.ahmedabadlive;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
@@ -30,10 +32,14 @@ public class SignupActivity extends AppCompatActivity {
     Button signup;
     RadioGroup gender;
     Spinner city;
-    String scity = "";
+    String scity = "", sgender = "";
     CheckBox terms;
 
+    String email_syntax = "[A-Z0-9a-z._-]+@[a-z]+\\.[a-z]+";
+
     String[] cityname = {"Select the city","Rajkot","Ahmedabad","Surat"};
+
+    SQLiteDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,10 +64,14 @@ public class SignupActivity extends AppCompatActivity {
         confirmnotvisible.setVisibility(View.GONE);
         notvisible.setVisibility(View.GONE);
 
+        db = openOrCreateDatabase("ahmedabadlive_user.db",MODE_PRIVATE,null);
+        String tablequery = "CREATE TABLE IF NOT EXISTS USERS(USERID PRIMARY KEY,USERNAME VARCHAR(100),NAME VARCHAR(100),PHONE BIGINT(10),EMAIL VARCHAR(100),PASSWORD VARCHAR(20),GENDER VARCHAR(6),CITY VARCHAR(20))";
+        db.execSQL(tablequery);
         gender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 RadioButton radioButton = findViewById(checkedId);
+                sgender = radioButton.getText().toString();
                 new CommonMethod(SignupActivity.this,radioButton.getText().toString());
             }
         });
@@ -112,7 +122,7 @@ public class SignupActivity extends AppCompatActivity {
             public void onClick(View v) {
                 confirmvisible.setVisibility(View.GONE);
                 confirmnotvisible.setVisibility(View.VISIBLE);
-                password.setTransformationMethod(null);
+                confirmpassword.setTransformationMethod(null);
             }
         });
 
@@ -121,7 +131,7 @@ public class SignupActivity extends AppCompatActivity {
             public void onClick(View v) {
                 confirmvisible.setVisibility(View.VISIBLE);
                 confirmnotvisible.setVisibility(View.GONE);
-                password.setTransformationMethod(new PasswordTransformationMethod());
+                confirmpassword.setTransformationMethod(new PasswordTransformationMethod());
             }
         });
 
@@ -137,9 +147,17 @@ public class SignupActivity extends AppCompatActivity {
                     phone.setError("Enter Phone No");
                 }else if (eamil.getText().toString().trim().equals("")) {
                     eamil.setError("Enter Email");
-                }else if (password.getText().toString().trim().equals("")) {
+                }
+                else if (!eamil.getText().toString().trim().matches(email_syntax)) {
+                    eamil.setError("Enter Email in proper way");
+                }
+                else if (password.getText().toString().trim().equals("")) {
                     password.setError("Enter Password");
-                }else if (confirmpassword.getText().toString().trim().equals("")) {
+                }
+                else if (password.getText().toString().trim().length()<6) {
+                    password.setError("Password have minmun 6 charactars");
+                }
+                else if (confirmpassword.getText().toString().trim().equals("")) {
                     confirmpassword.setError("Enter ConfirmPassword");
                 }
                 else if (!password.getText().toString().trim().equals(confirmpassword.getText().toString().trim())) {
@@ -155,10 +173,21 @@ public class SignupActivity extends AppCompatActivity {
                     new CommonMethod(v,"Accept the terms and conditions");
                 }
                 else {
-                    System.out.println("Sign successfully");
-                    new CommonMethod(SignupActivity.this, "Login successfully");
-                    new CommonMethod(v, "Login successfully");
-                    onBackPressed();
+
+                    String selectQuery = "SELECT * FROM USERS WHERE USERNAME = '"+username.getText().toString()+"' OR EMAIL = '"+eamil.getText().toString()+"' OR PHONE = '"+phone.getText().toString()+"'";
+                    Cursor cursor = db.rawQuery(selectQuery,null);
+                    if (cursor.getCount()>0){
+                        new CommonMethod(SignupActivity.this,"Username/email/phoneno already registerd");
+                        new CommonMethod(v,"Username/email/phoneno already registerd");
+                    }
+                    else {
+                        String insertQuery = "INSERT INTO USERS VALUES(NULL,'"+username.getText().toString()+"','"+name.getText().toString()+"','"+phone.getText().toString()+"','"+eamil.getText().toString()+"','"+password.getText().toString()+"','"+sgender+"','"+scity+"')";
+                        db.execSQL(insertQuery);
+                        System.out.println("Sign successfully");
+                        new CommonMethod(SignupActivity.this, "Signin successfully");
+                        new CommonMethod(v, "Sign successfully");
+                        onBackPressed();
+                    }
                 }
             }
         });

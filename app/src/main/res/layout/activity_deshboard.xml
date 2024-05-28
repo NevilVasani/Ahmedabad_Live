@@ -10,12 +10,56 @@
 
 
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_50sdp"
+        android:background="@color/white"
+        >
+
+        <ImageView
+            android:id="@+id/deshboard_Profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/user_deshboard"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:background="@drawable/deshboard_user_border"
+            />
+
+        <TextView
+            style="@style/textview"
+            android:text="Ahmedabad Live"
+            android:textSize="@dimen/_25sdp"
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            />
+    </RelativeLayout>
+
+
     <TextView
         android:id="@+id/deshboard_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
-        android:layout_marginTop="50dp"
-        android:textSize="20dp"/>
+        android:layout_marginTop="@dimen/_50sdp"
+        android:textSize="@dimen/_20sdp"/>
+
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_45sdp"
+        android:layout_marginHorizontal="@dimen/_35sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:text="Profile" />
+
+    <Button
+        android:id="@+id/deshboard_Logout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_45sdp"
+        android:layout_marginHorizontal="@dimen/_35sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:text="Logout" />
 </LinearLayout>

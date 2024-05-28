@@ -27,7 +27,7 @@ public class ForgotpasswordActivity extends AppCompatActivity {
         setContentView(R.layout.activity_forgotpassword);
 
         db = openOrCreateDatabase("ahmedabadlive_user.db",MODE_PRIVATE,null);
-        String tablequery = "CREATE TABLE IF NOT EXISTS USERS(USERID PRIMARY KEY,USERNAME VARCHAR(100),NAME VARCHAR(100),PHONE BIGINT(10),EMAIL VARCHAR(100),PASSWORD VARCHAR(20),GENDER VARCHAR(6),CITY VARCHAR(20))";
+        String tablequery = "CREATE TABLE IF NOT EXISTS USERS(USERID INTEGER PRIMARY KEY,USERNAME VARCHAR(100),NAME VARCHAR(100),PHONE BIGINT(10),EMAIL VARCHAR(100),PASSWORD VARCHAR(20),GENDER VARCHAR(6),CITY VARCHAR(20))";
         db.execSQL(tablequery);
 
         username = findViewById(R.id.forgotpassword_username);

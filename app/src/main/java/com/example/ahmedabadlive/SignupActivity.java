@@ -65,7 +65,7 @@ public class SignupActivity extends AppCompatActivity {
         notvisible.setVisibility(View.GONE);
 
         db = openOrCreateDatabase("ahmedabadlive_user.db",MODE_PRIVATE,null);
-        String tablequery = "CREATE TABLE IF NOT EXISTS USERS(USERID PRIMARY KEY,USERNAME VARCHAR(100),NAME VARCHAR(100),PHONE BIGINT(10),EMAIL VARCHAR(100),PASSWORD VARCHAR(20),GENDER VARCHAR(6),CITY VARCHAR(20))";
+        String tablequery = "CREATE TABLE IF NOT EXISTS USERS(USERID INTEGER PRIMARY KEY AUTOINCREMENT,USERNAME VARCHAR(100),NAME VARCHAR(100),PHONE BIGINT(10),EMAIL VARCHAR(100),PASSWORD VARCHAR(20),GENDER VARCHAR(6),CITY VARCHAR(20))";
         db.execSQL(tablequery);
         gender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override

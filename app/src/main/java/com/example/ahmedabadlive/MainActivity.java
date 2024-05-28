@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         sp = getSharedPreferences(contentsp.PREF,MODE_PRIVATE);
 
         db = openOrCreateDatabase("ahmedabadlive_user.db",MODE_PRIVATE,null);
-        String tablequery = "CREATE TABLE IF NOT EXISTS USERS(USERID PRIMARY KEY,USERNAME VARCHAR(100),NAME VARCHAR(100),PHONE BIGINT(10),EMAIL VARCHAR(100),PASSWORD VARCHAR(20),GENDER VARCHAR(6),CITY VARCHAR(20))";
+        String tablequery = "CREATE TABLE IF NOT EXISTS USERS(USERID INTEGER PRIMARY KEY,USERNAME VARCHAR(100),NAME VARCHAR(100),PHONE BIGINT(10),EMAIL VARCHAR(100),PASSWORD VARCHAR(20),GENDER VARCHAR(6),CITY VARCHAR(20))";
         db.execSQL(tablequery);
 
         username = findViewById(R.id.main_username);
@@ -120,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
                         //Intent intent = new Intent(MainActivity.this, DeshboardActivity.class);
                         //MainActivity.this.startActivity(intent);
                         new CommonMethod(MainActivity.this,DeshboardActivity.class);
+                        finish();
                     }
 
                     else {

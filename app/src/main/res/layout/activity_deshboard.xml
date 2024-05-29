@@ -49,11 +49,12 @@
 
 
     <Button
+        android:id="@+id/deshboard_catagory"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_45sdp"
         android:layout_marginHorizontal="@dimen/_35sdp"
         android:layout_marginTop="@dimen/_20sdp"
-        android:text="Profile" />
+        android:text="Catagory" />
 
     <Button
         android:id="@+id/deshboard_Logout"

@@ -19,7 +19,7 @@ import androidx.core.view.WindowInsetsCompat;
 public class DeshboardActivity extends AppCompatActivity {
 
     TextView text;
-    Button logout;
+    Button logout,catagory;
     ImageView profile;
     SharedPreferences sp;
     @Override
@@ -30,6 +30,7 @@ public class DeshboardActivity extends AppCompatActivity {
         sp = getSharedPreferences(contentsp.PREF,MODE_PRIVATE);
 
         logout = findViewById(R.id.deshboard_Logout);
+        catagory = findViewById(R.id.deshboard_catagory);
         profile = findViewById(R.id.deshboard_Profile);
         text = findViewById(R.id.deshboard_text);
         text.setText("Welcome "+sp.getString(contentsp.NAME,""));
@@ -56,6 +57,13 @@ public class DeshboardActivity extends AppCompatActivity {
                 });
 
                 builder.show();
+            }
+        });
+
+        catagory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new CommonMethod(DeshboardActivity.this, CatagoryActivity.class);
             }
         });
 

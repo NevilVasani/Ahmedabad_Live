@@ -2,6 +2,7 @@ package com.example.ahmedabadlive;
 
 public class contentsp {
 
+    public static final String PRICE_SYMBOL = "Rs. ";
     public static final String PREF = "pref";
 
     public static final String USERID  = "userid";
@@ -12,5 +13,12 @@ public class contentsp {
     public static final String PASSWORD = "password";
     public static final String GENDER = "gender";
     public static final String CITY = "city";
+    public static final String CATEGORY_ID = "category_id";
+
+    public static final String CATEGORY_NAME = "categary_name";
+    public static final String SUB_CATEGORY_ID = "sub_category_id";
+    public static final String SUB_CATEGORY_NAME = "sub_category_name";
+    public static final String PRODUCT_ID = "product_id";
+
 
 }

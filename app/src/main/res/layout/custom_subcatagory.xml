@@ -19,13 +19,13 @@
         >
 
         <ImageView
-            android:id="@+id/custom_category_image"
+            android:id="@+id/custom_sub_category_image"
             android:layout_gravity="center"
             android:layout_width="@dimen/_70sdp"
             android:layout_height="@dimen/_70sdp"
             />
         <TextView
-            android:id="@+id/custom_category_text"
+            android:id="@+id/custom_sub_category_text"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/_20sdp"
             android:paddingStart="@dimen/_5sdp"

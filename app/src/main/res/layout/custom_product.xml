@@ -15,23 +15,37 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/_10sdp"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         >
 
         <ImageView
-            android:id="@+id/custom_category_image"
+            android:id="@+id/product_image"
             android:layout_gravity="center"
             android:layout_width="@dimen/_70sdp"
             android:layout_height="@dimen/_70sdp"
             />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
         <TextView
-            android:id="@+id/custom_category_text"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/_20sdp"
+            android:id="@+id/product_text"
+            android:layout_marginTop="@dimen/_5sdp"
             android:paddingStart="@dimen/_5sdp"
             style="@style/textview_16"
+            android:text="hepldlfmklds"
             />
 
+        <TextView
+            android:id="@+id/product_price"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:paddingStart="@dimen/_5sdp"
+            style="@style/textview_16"
+            android:textStyle="bold"
+            android:text="hepldlfmklds"
+            />
+        </LinearLayout>
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

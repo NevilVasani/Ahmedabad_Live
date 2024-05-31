@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,13 +13,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class CatagoryAdaptor extends RecyclerView.Adapter<CatagoryAdaptor.MyHolder> {
-
+public class ProductAdaptor extends RecyclerView.Adapter<ProductAdaptor.MyHolder> {
     Context context;
-    ArrayList<CatagoryList> arrayList;
+    ArrayList<ProductList> arrayList;
+
     SharedPreferences sp;
 
-    public CatagoryAdaptor(Context context, ArrayList arrayList) {
+    public ProductAdaptor(Context context, ArrayList arrayList) {
         this.context = context;
         this.arrayList = arrayList;
         sp = context.getSharedPreferences(contentsp.PREF,Context.MODE_PRIVATE);
@@ -28,34 +27,36 @@ public class CatagoryAdaptor extends RecyclerView.Adapter<CatagoryAdaptor.MyHold
 
     @NonNull
     @Override
-    public CatagoryAdaptor.MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_catagory,parent,false);
-        return new MyHolder(view);
+    public ProductAdaptor.MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_product,parent,false);
+        return new ProductAdaptor.MyHolder(view);
     }
+
 
     public class MyHolder extends RecyclerView.ViewHolder {
 
         ImageView imageView;
-        TextView textView;
+        TextView textView,price;
 
         public MyHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.custom_category_image);
-            textView = itemView.findViewById(R.id.custom_category_text);
+            imageView = itemView.findViewById(R.id.product_image);
+            textView = itemView.findViewById(R.id.product_text);
+            price = itemView.findViewById(R.id.product_price);
         }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CatagoryAdaptor.MyHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ProductAdaptor.MyHolder holder, int position) {
         holder.imageView.setImageResource(Integer.parseInt(arrayList.get(position).getImage()));
         holder.textView.setText(arrayList.get(position).getName());
+        holder.price.setText(contentsp.PRICE_SYMBOL + arrayList.get(position).getPrice());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sp.edit().putString(contentsp.CATEGORY_ID,arrayList.get(position).getCatagoryID()).commit();
-                sp.edit().putString(contentsp.CATEGORY_NAME,arrayList.get(position).getName()).commit();
-                new CommonMethod(context, SubCatagoryActivity.class);
+                sp.edit().putString(contentsp.PRODUCT_ID,arrayList.get(position).getId()).commit();
+                new CommonMethod(context, ProductDetailsActivity.class);
             }
         });
     }

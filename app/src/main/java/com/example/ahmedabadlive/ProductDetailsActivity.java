@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,8 +20,9 @@ public class ProductDetailsActivity extends AppCompatActivity {
     SQLiteDatabase db;
     SharedPreferences sp;
 
-    ImageView image;
+    ImageView image, wishlist, addtobag;
     TextView name,price,description;
+    Boolean iswishlist = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +47,8 @@ public class ProductDetailsActivity extends AppCompatActivity {
         String producttablequery = "CREATE TABLE IF NOT EXISTS PRODUCTS(PRODUCTSID INTEGER PRIMARY KEY AUTOINCREMENT,SUBCATEGORYID VARCHAR(10),CATEGORYID VARCHAR(10),NAME VARCHAR(100),IMAGE VARCHAR(100),DESCRIPTION TEXT,PRICE VARCHAR(20))";
         db.execSQL(producttablequery);
 
+        String wishlistTablequery = "CREATE TABLE IF NOT EXISTS WISHLIST(WISHLISTID INTEGER PRIMARY KEY AUTOINCREMENT, USERID VARCHAR(10), PRODUCTID VARCHAR(10))";
+        db.execSQL(wishlistTablequery);
 
         String selectQuery = "SELECT * FROM PRODUCTS WHERE PRODUCTSID = '"+sp.getString(contentsp.PRODUCT_ID,"")+"'";
         Cursor cursor = db.rawQuery(selectQuery,null);
@@ -60,5 +64,40 @@ public class ProductDetailsActivity extends AppCompatActivity {
         else {
             new CommonMethod(ProductDetailsActivity.this,"Product not found!");
         }
+
+
+
+        wishlist = findViewById(R.id.product_detail_wishlist);
+        addtobag = findViewById(R.id.product_detail_bag);
+
+        String wishlistselectQuery = "SELECT * FROM WISHLIST WHERE USERID = '"+sp.getString(contentsp.USERID,"")+"' AND PRODUCTID = '"+sp.getString(contentsp.PRODUCT_ID,"")+"'";
+        Cursor cursor1 = db.rawQuery(wishlistselectQuery,null);
+
+        if (cursor1.getCount()>0){
+            wishlist.setImageResource(R.drawable.wishlist_fill);
+            iswishlist = true;
+        }
+        else {
+            wishlist.setImageResource(R.drawable.wishlist_empty);
+            iswishlist = false;
+        }
+        wishlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (iswishlist) {
+                    String deleteQuery = "DELETE FROM WISHLIST WHERE USERID = '"+sp.getString(contentsp.USERID,"")+"' AND PRODUCTID = '"+sp.getString(contentsp.PRODUCT_ID,"")+"'";
+                    db.execSQL(deleteQuery);
+                    wishlist.setImageResource(R.drawable.wishlist_empty);
+                    iswishlist = false;
+                }
+                else {
+                    String insertQuery = "INSERT INTO WISHLIST VALUES(NULL, '" + sp.getString(contentsp.USERID, "") + "', '" + sp.getString(contentsp.PRODUCT_ID, "") + "')";
+                    db.execSQL(insertQuery);
+                    wishlist.setImageResource(R.drawable.wishlist_fill);
+                    iswishlist = true;
+                }
+            }
+        });
     }
 }

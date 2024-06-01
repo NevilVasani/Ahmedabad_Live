@@ -34,7 +34,7 @@
             android:layout_marginTop="@dimen/_5sdp"
             android:paddingStart="@dimen/_5sdp"
             style="@style/textview_16"
-            android:text="hepldlfmklds"
+
             />
 
         <TextView
@@ -43,7 +43,6 @@
             android:paddingStart="@dimen/_5sdp"
             style="@style/textview_16"
             android:textStyle="bold"
-            android:text="hepldlfmklds"
             />
         </LinearLayout>
 

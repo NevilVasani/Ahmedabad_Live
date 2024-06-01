@@ -19,7 +19,7 @@ import androidx.core.view.WindowInsetsCompat;
 public class DeshboardActivity extends AppCompatActivity {
 
     TextView text;
-    Button logout,catagory;
+    Button logout,catagory,wishlist;
     ImageView profile;
     SharedPreferences sp;
     @Override
@@ -33,6 +33,7 @@ public class DeshboardActivity extends AppCompatActivity {
         catagory = findViewById(R.id.deshboard_catagory);
         profile = findViewById(R.id.deshboard_Profile);
         text = findViewById(R.id.deshboard_text);
+        wishlist = findViewById(R.id.deshboard_wishlist);
         text.setText("Welcome "+sp.getString(contentsp.NAME,""));
 
         logout.setOnClickListener(new View.OnClickListener() {
@@ -71,6 +72,13 @@ public class DeshboardActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 new CommonMethod(DeshboardActivity.this,ProfileActivity.class);
+            }
+        });
+
+        wishlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new CommonMethod(DeshboardActivity.this,WishlistActivity.class);
             }
         });
     }

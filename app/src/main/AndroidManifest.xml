@@ -15,6 +15,9 @@
         android:theme="@style/Theme.AhmedabadLive"
         tools:targetApi="31">
         <activity
+            android:name=".WishlistActivity"
+            android:exported="false" />
+        <activity
             android:name=".ProductDetailsActivity"
             android:exported="false" />
         <activity

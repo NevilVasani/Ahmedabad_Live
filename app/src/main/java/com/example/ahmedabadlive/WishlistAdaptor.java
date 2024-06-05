@@ -59,7 +59,6 @@ public class WishlistAdaptor extends RecyclerView.Adapter<WishlistAdaptor.MyHold
         holder.wishlist.setImageResource(R.drawable.wishlist_fill);
         holder.addtobag.setImageResource(R.drawable.shoping_bag);
 
-
         holder.wishlist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,6 +66,8 @@ public class WishlistAdaptor extends RecyclerView.Adapter<WishlistAdaptor.MyHold
                 db.execSQL(deleteQuery);
                 arrayList.remove(position);
                 notifyDataSetChanged();
+//                notifyItemRemoved(position);
+//                notifyItemRangeChanged(position, arrayList.size());
             }
         });
 

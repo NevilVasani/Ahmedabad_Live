@@ -8,6 +8,16 @@ public class ProductList {
     String image;
     String description;
 
+    public String getUserid() {
+        return userid;
+    }
+
+    public void setUserid(String userid) {
+        this.userid = userid;
+    }
+
+    String userid;
+
     public String getId() {
         return id;
     }

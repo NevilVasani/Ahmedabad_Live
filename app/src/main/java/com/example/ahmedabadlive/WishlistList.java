@@ -3,6 +3,16 @@ package com.example.ahmedabadlive;
 public class WishlistList {
 
     String wishlistId;
+
+    public String getUserid() {
+        return userid;
+    }
+
+    public void setUserid(String userid) {
+        this.userid = userid;
+    }
+
+    String userid;
     String productId;
     String categoryId;
     String subCategoryId;

@@ -39,7 +39,7 @@ public class ProductAdaptor extends RecyclerView.Adapter<ProductAdaptor.MyHolder
     public class MyHolder extends RecyclerView.ViewHolder {
 
         ImageView imageView,wishlist,addtobag;
-        TextView textView,price;
+        TextView textView,price,brand;
 
         public MyHolder(@NonNull View itemView) {
             super(itemView);
@@ -48,6 +48,7 @@ public class ProductAdaptor extends RecyclerView.Adapter<ProductAdaptor.MyHolder
             price = itemView.findViewById(R.id.custom_product_price);
             wishlist = itemView.findViewById(R.id.custom_product_wishlist);
             addtobag = itemView.findViewById(R.id.custom_product_bag);
+            brand = itemView.findViewById(R.id.custom_product_brand);
         }
     }
 
@@ -58,6 +59,7 @@ public class ProductAdaptor extends RecyclerView.Adapter<ProductAdaptor.MyHolder
         holder.price.setText(contentsp.PRICE_SYMBOL + arrayList.get(position).getPrice());
         holder.wishlist.setImageResource(R.drawable.wishlist_empty);
         holder.addtobag.setImageResource(R.drawable.shoping_bag);
+        holder.brand.setText(arrayList.get(position).getBrand());
 
 
         String selectQuery = "SELECT * FROM WISHLIST WHERE USERID = '" + sp.getString(contentsp.USERID, "0") + "' AND PRODUCTID = '" + arrayList.get(position).getId() + "'";

@@ -29,6 +29,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/custom_product_brand"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:paddingStart="@dimen/_5sdp"
+                style="@style/textview_18_bold"
+                />
+
         <TextView
             android:id="@+id/custom_product_text"
             android:layout_marginTop="@dimen/_5sdp"

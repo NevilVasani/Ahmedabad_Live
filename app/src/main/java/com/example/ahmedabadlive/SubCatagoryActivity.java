@@ -18,9 +18,9 @@ import java.util.ArrayList;
 
 public class SubCatagoryActivity extends AppCompatActivity {
 
-    String[] categoryIDArray = {"1","1","1","1","2","2","2","3","3"};
-    String[] nameArray = {"U.S.Polo","H&M","Louis Pholippe","Allen Solly","U.S.Polo","Louis Pholippe","Allen Solly","Levis","Mufti"};
-    Integer[] imageArray = {R.drawable.uspolo,R.drawable.hm_logo,R.drawable.louis_logo,R.drawable.allen,R.drawable.uspolo,R.drawable.louis_logo,R.drawable.allen,R.drawable.levis_logo,R.drawable.mufti};
+    String[] categoryIDArray = {"1","1","1","1","2","2","2","3","3","5","5","5"};
+    String[] nameArray = {"U.S.Polo","H&M","Louis Pholippe","Allen Solly","U.S.Polo","Louis Pholippe","Allen Solly","Levis","Mufti","Casual Shoes","Sport Shoes","Sneakers Shoes"};
+    Integer[] imageArray = {R.drawable.uspolo,R.drawable.hm_logo,R.drawable.louis_logo,R.drawable.allen,R.drawable.uspolo,R.drawable.louis_logo,R.drawable.allen,R.drawable.levis_logo,R.drawable.mufti,R.drawable.casual_shoes_1,R.drawable.sport_shoes,R.drawable.sneaker};
     RecyclerView recyclerView;
     SQLiteDatabase db;
     ArrayList<SubCatagoryList> subcatagoryList;

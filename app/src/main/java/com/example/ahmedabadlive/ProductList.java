@@ -1,6 +1,15 @@
 package com.example.ahmedabadlive;
 
 public class ProductList {
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    String brand;
     String id;
     String subcatagoryID;
     String catagoryID;

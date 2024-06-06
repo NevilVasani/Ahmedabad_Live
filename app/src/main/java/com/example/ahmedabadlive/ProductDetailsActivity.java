@@ -3,6 +3,7 @@ package com.example.ahmedabadlive;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.health.connect.datatypes.StepsRecord;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -50,6 +51,9 @@ public class ProductDetailsActivity extends AppCompatActivity {
         String wishlistTablequery = "CREATE TABLE IF NOT EXISTS WISHLIST(WISHLISTID INTEGER PRIMARY KEY AUTOINCREMENT, USERID VARCHAR(10), PRODUCTID VARCHAR(10))";
         db.execSQL(wishlistTablequery);
 
+        String cartTablequery = "CREATE TABLE IF NOT EXISTS CART(CARTID INTEGER PRIMARY KEY AUTOINCREMENT, USERID VARCHAR(10),ORDERID VARCHAR(10), PRODUCTID VARCHAR(10),QTY VARCHAR(10))";
+        db.execSQL(cartTablequery);
+
         String selectQuery = "SELECT * FROM PRODUCTS WHERE PRODUCTSID = '"+sp.getString(contentsp.PRODUCT_ID,"")+"'";
         Cursor cursor = db.rawQuery(selectQuery,null);
 
@@ -68,7 +72,6 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
 
         wishlist = findViewById(R.id.product_detail_wishlist);
-        addtobag = findViewById(R.id.product_detail_bag);
 
         String wishlistselectQuery = "SELECT * FROM WISHLIST WHERE USERID = '"+sp.getString(contentsp.USERID,"")+"' AND PRODUCTID = '"+sp.getString(contentsp.PRODUCT_ID,"")+"'";
         Cursor cursor1 = db.rawQuery(wishlistselectQuery,null);
@@ -96,6 +99,26 @@ public class ProductDetailsActivity extends AppCompatActivity {
                     db.execSQL(insertQuery);
                     wishlist.setImageResource(R.drawable.wishlist_fill);
                     iswishlist = true;
+                }
+            }
+        });
+
+
+        addtobag = findViewById(R.id.product_detail_bag);
+
+        addtobag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String cartselectQuery  = "SELECT * FROM CART WHERE PRODUCTID = '"+sp.getString(contentsp.PRODUCT_ID,"")+"' AND ORDERID = '0'";
+                Cursor cursor2  = db.rawQuery(cartselectQuery,null);
+
+                if (cursor2.getCount()>0){
+                    new CommonMethod(ProductDetailsActivity.this,"Product Already Added In Cart");
+                }
+                else {
+                    String insertQuery  = "INSERT INTO CART VALUES (NULL, '"+sp.getString(contentsp.USERID,"")+"','0','"+sp.getString(contentsp.PRODUCT_ID,"")+"','1')";
+                    db.execSQL(insertQuery);
+                    new CommonMethod(ProductDetailsActivity.this,"Product Added In Cart");
                 }
             }
         });

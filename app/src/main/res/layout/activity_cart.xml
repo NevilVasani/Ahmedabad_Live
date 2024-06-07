@@ -7,9 +7,62 @@
     tools:context=".CartActivity">
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/cart_recyclerview"
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/cart_datalayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
+        android:layout_height="match_parent"
+        >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/cart_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+        <LinearLayout
+            android:id="@+id/cart_bottombar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+
+            <TextView
+                android:id="@+id/cart_total"
+                style="@style/textview_18_bold"
+                android:layout_weight="2"
+                android:background="#337BA7"
+                android:textColor="@color/white"
+                android:text="Total : Rs."
+                android:padding="@dimen/_5sdp"
+                />
+            <TextView
+                android:id="@+id/cart_checkout"
+                style="@style/textview_18_bold"
+                android:layout_weight="1"
+                android:textColor="@color/white"
+                android:background="#80c5ca"
+                android:padding="@dimen/_5sdp"
+                android:text="Checkout"
+                android:gravity="center"
+                />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/cart_emptylayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F8F8F8"
+        >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/emptycart"
+            />
+
+    </RelativeLayout>
+
+
 </RelativeLayout>

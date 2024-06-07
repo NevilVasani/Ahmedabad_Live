@@ -1,9 +1,13 @@
 package com.example.ahmedabadlive;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,15 +18,21 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.security.PublicKey;
 import java.util.ArrayList;
 
 public class CartActivity extends AppCompatActivity {
 
-
+    public static RelativeLayout dataview,emptyview;
     RecyclerView recyclerView;
+    public static TextView totalprice;
+    TextView checkout;
     SQLiteDatabase db;
     ArrayList<CartList> cartLists;
     SharedPreferences sp;
+
+    public static int itotalcount= 0;
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +42,8 @@ public class CartActivity extends AppCompatActivity {
         sp = getSharedPreferences(contentsp.PREF,MODE_PRIVATE);
 
         recyclerView = findViewById(R.id.cart_recyclerview);
+        dataview = findViewById(R.id.cart_datalayout);
+        emptyview = findViewById(R.id.cart_emptylayout);
 
         db = openOrCreateDatabase("ahmedabadlive_user.db",MODE_PRIVATE,null);
         String tablequery = "CREATE TABLE IF NOT EXISTS USERS(USERID INTEGER PRIMARY KEY AUTOINCREMENT,USERNAME VARCHAR(100),NAME VARCHAR(100),PHONE BIGINT(10),EMAIL VARCHAR(100),PASSWORD VARCHAR(20),GENDER VARCHAR(6),CITY VARCHAR(20))";
@@ -64,6 +76,13 @@ public class CartActivity extends AppCompatActivity {
 
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
+
+        totalprice = findViewById(R.id.cart_total);
+        checkout = findViewById(R.id.cart_checkout);
+
+
+
+
         cartLists = new ArrayList<>(); // Initialize the ArrayList here
 
         String selectQuery = "SELECT * FROM CART WHERE USERID = '"+sp.getString(contentsp.USERID,"")+"' AND ORDERID = '0'";
@@ -86,6 +105,7 @@ public class CartActivity extends AppCompatActivity {
                         list.setImage(cursor1.getString(4));
                         list.setDescription(cursor1.getString(5));
                         list.setPrice(cursor1.getString(6));
+                        itotalcount += Integer.parseInt(cursor.getString(4)) * Integer.parseInt(cursor1.getString(6)) ;
                     }
                     cursor1.close();
                     cartLists.add(list);
@@ -93,8 +113,15 @@ public class CartActivity extends AppCompatActivity {
                 cursor.close();
                 CartAdaptor adaptor = new CartAdaptor(CartActivity.this, cartLists, sp, db);
                 recyclerView.setAdapter(adaptor);
+
+                totalprice.setText("Total : "+contentsp.PRICE_SYMBOL + itotalcount);
+
+                dataview.setVisibility(View.VISIBLE);
+                emptyview.setVisibility(View.GONE);
             } else {
                 new CommonMethod(CartActivity.this, "Product not found");
+                dataview.setVisibility(View.GONE);
+                emptyview.setVisibility(View.VISIBLE);
             }
     }
 }

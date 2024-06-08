@@ -51,6 +51,37 @@
                     android:layout_margin="@dimen/_10sdp"
                     />
 
+                <LinearLayout
+                    android:id="@+id/product_detail_qtyLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:padding="@dimen/_5sdp"
+                    >
+
+                    <ImageView
+                        android:id="@+id/product_detail_minus"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:padding="@dimen/_2sdp"
+                        android:src="@drawable/minus" />
+
+                    <TextView
+                        android:textColor="@color/black"
+                        android:id="@+id/product_detailt_qty"
+                        style="@style/textview_18_bold"
+                        android:layout_marginHorizontal="@dimen/_10sdp" />
+
+                    <ImageView
+                        android:id="@+id/product_detail_plus"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:padding="@dimen/_2sdp"
+                        android:src="@drawable/plus" />
+
+                </LinearLayout>
+
+
             </LinearLayout>
 
             <TextView

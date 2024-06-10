@@ -80,6 +80,9 @@ public class ProductActivity extends AppCompatActivity {
         String wishlistTablequery = "CREATE TABLE IF NOT EXISTS WISHLIST(WISHLISTID INTEGER PRIMARY KEY AUTOINCREMENT, USERID VARCHAR(10), PRODUCTID VARCHAR(10))";
         db.execSQL(wishlistTablequery);
 
+        String cartTablequery = "CREATE TABLE IF NOT EXISTS CART(CARTID INTEGER PRIMARY KEY AUTOINCREMENT, USERID VARCHAR(10),ORDERID VARCHAR(10), PRODUCTID VARCHAR(10),QTY VARCHAR(10))";
+        db.execSQL(cartTablequery);
+
         for (int i = 0; i < nameArray.length; i++) {
             String selectQuery = "SELECT * FROM PRODUCTS WHERE NAME='" + nameArray[i] + "' AND CATEGORYID = '" + categoryIDArray[i] + "' AND SUBCATEGORYID = '" + subcategoryIDArray[i] + "'";
             Cursor cursor = db.rawQuery(selectQuery, null);
@@ -119,17 +122,11 @@ public class ProductActivity extends AppCompatActivity {
                     setdata(brandsArray[position]);
                 }
             }
-
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
-
     }
-
-
 
     private void setdata(String sBrand) {
             productList = new ArrayList<>();
@@ -155,6 +152,20 @@ public class ProductActivity extends AppCompatActivity {
                     list.setDescription(cursor.getString(5));
                     list.setPrice(cursor.getString(6));
                     list.setBrand(cursor.getString(7));
+
+                    String selectCartQuery = "SELECT * FROM CART WHERE PRODUCTID='"+cursor.getString(0)+"' AND USERID='"+sp.getString(contentsp.USERID,"")+"' AND ORDERID='0'";
+                    Cursor cartCursor = db.rawQuery(selectCartQuery,null);
+                    if(cartCursor.getCount()>0){
+                        while (cartCursor.moveToNext()){
+                            list.setCartId(cartCursor.getString(0));
+                            list.setiQty(Integer.parseInt((cartCursor.getString(4))));
+                        }
+                    }
+                    else{
+                        list.setiQty(0);
+                        list.setCartId("");
+                    }
+
                     productList.add(list);
                 }
             } else {

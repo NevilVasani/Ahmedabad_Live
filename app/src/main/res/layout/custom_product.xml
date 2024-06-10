@@ -73,6 +73,35 @@
                     android:padding="@dimen/_1sdp"
                     android:src="@drawable/shoping_bag" />
 
+                <LinearLayout
+                    android:id="@+id/custom_product_qtyLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_1sdp"
+                    >
+
+                    <ImageView
+                        android:id="@+id/custom_product_minus"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:padding="@dimen/_2sdp"
+                        android:src="@drawable/minus" />
+
+                    <TextView
+                        android:textColor="@color/black"
+                        android:id="@+id/custom_product_qty"
+                        style="@style/textview_18_bold"
+                        android:layout_marginHorizontal="@dimen/_10sdp" />
+
+                    <ImageView
+                        android:id="@+id/custom_product_plus"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:padding="@dimen/_2sdp"
+                        android:src="@drawable/plus" />
+
+                </LinearLayout>
+
             </LinearLayout>
 
         </LinearLayout>

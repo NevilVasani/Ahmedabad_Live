@@ -17,6 +17,26 @@ public class ProductList {
     String image;
     String description;
 
+    public int getiQty() {
+        return iQty;
+    }
+
+    public void setiQty(int iQty) {
+        this.iQty = iQty;
+    }
+
+    int iQty;
+
+    public String getCartId() {
+        return cartId;
+    }
+
+    public void setCartId(String cartId) {
+        this.cartId = cartId;
+    }
+
+    String cartId;
+
     public String getUserid() {
         return userid;
     }

@@ -111,6 +111,8 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -121,7 +123,8 @@ import java.util.ArrayList;
 
 public class WishlistActivity extends AppCompatActivity {
 
-    RecyclerView recyclerView;
+    public static RecyclerView recyclerView;
+    public static RelativeLayout emptyWishlistLayout;
     SQLiteDatabase db;
     ArrayList<WishlistList> wishlistLists;
     SharedPreferences sp;
@@ -135,6 +138,10 @@ public class WishlistActivity extends AppCompatActivity {
         sp = getSharedPreferences(contentsp.PREF, MODE_PRIVATE);
 
         recyclerView = findViewById(R.id.wishlist_recyclerview);
+        emptyWishlistLayout = findViewById(R.id.wishlist_emptylayout);
+
+        recyclerView.setVisibility(View.VISIBLE);
+        emptyWishlistLayout.setVisibility(View.GONE);
 
         db = openOrCreateDatabase("ahmedabadlive_user.db", MODE_PRIVATE, null);
         createTablesIfNeeded();
@@ -164,6 +171,8 @@ public class WishlistActivity extends AppCompatActivity {
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         if (cursor.getCount() > 0) {
+            recyclerView.setVisibility(View.VISIBLE);
+            emptyWishlistLayout.setVisibility(View.GONE);
             while (cursor.moveToNext()) {
                 WishlistList list = new WishlistList();
                 list.setWishlistId(cursor.getString(cursor.getColumnIndexOrThrow("WISHLISTID")));
@@ -187,7 +196,9 @@ public class WishlistActivity extends AppCompatActivity {
             cursor.close();
             adaptor.notifyDataSetChanged();
         } else {
-            new CommonMethod(this, "Product not found");
+            recyclerView.setVisibility(View.GONE);
+            emptyWishlistLayout.setVisibility(View.VISIBLE);
+            adaptor.notifyDataSetChanged();
         }
     }
 

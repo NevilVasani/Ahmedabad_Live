@@ -2,11 +2,14 @@ package com.example.ahmedabadlive;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -62,12 +65,22 @@ public class WishlistAdaptor extends RecyclerView.Adapter<WishlistAdaptor.MyHold
         holder.wishlist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String deleteQuery = "DELETE FROM WISHLIST WHERE WISHLISTID = '"+arrayList.get(position).getWishlistId()+"'";
-                db.execSQL(deleteQuery);
-                arrayList.remove(position);
-                notifyDataSetChanged();
+
+                String selectQuery = "SELECT * FROM WISHLIST WHERE USERID = '" + sp.getString(contentsp.USERID, "") + "'";
+                Cursor cursor = db.rawQuery(selectQuery, null);
+
+                if (cursor.getCount()>0){
+
+                    WishlistActivity.recyclerView.setVisibility(View.VISIBLE);
+                    WishlistActivity.emptyWishlistLayout.setVisibility(View.GONE);
+
+                    String deleteQuery = "DELETE FROM WISHLIST WHERE WISHLISTID = '"+arrayList.get(position).getWishlistId()+"'";
+                    db.execSQL(deleteQuery);
+                    arrayList.remove(position);
+                    notifyDataSetChanged();
 //                notifyItemRemoved(position);
 //                notifyItemRangeChanged(position, arrayList.size());
+                }
             }
         });
 

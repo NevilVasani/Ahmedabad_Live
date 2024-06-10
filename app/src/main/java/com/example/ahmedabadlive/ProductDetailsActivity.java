@@ -122,6 +122,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
         if (cursor2.getCount()>0){
             while (cursor2.moveToNext()) {
                 qty.setText(cursor2.getString(4));
+                iqty = Integer.parseInt(cursor2.getString(4));
             }
             addtobag.setVisibility(View.GONE);
             qtyLayout.setVisibility(View.VISIBLE);
@@ -154,8 +155,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
         plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                iqty += 1;
-                updatecart(iqty);
+                updatecart("Plus");
             }
         });
 
@@ -179,22 +179,36 @@ public class ProductDetailsActivity extends AppCompatActivity {
                     }
                 }
                 else{
-                    updatecart(iqty);
+                    updatecart("Minus");
                 }
             }
         });
     }
 
-    private void updatecart(int iqty) {
+    private void updatecart(String sType) {
 
         String cartselectQuery  = "SELECT * FROM CART WHERE PRODUCTID = '"+sp.getString(contentsp.PRODUCT_ID,"")+"' AND ORDERID = '0'";
         Cursor cursor4  = db.rawQuery(cartselectQuery,null);
-        if (cursor4.getCount()>0){
-            while (cursor4.moveToNext()) {
-                String updateQuery = "UPDATE CART SET QTY = '"+iqty+"' WHERE CARTID = '"+cursor4.getString(0)+"'";
-                db.execSQL(updateQuery);
+
+        if (sType.equalsIgnoreCase("Plus")){
+            if (cursor4.getCount()>0){
+                while (cursor4.moveToNext()) {
+                    iqty = Integer.parseInt(cursor4.getString(4)) + 1;
+                    String updateQuery = "UPDATE CART SET QTY = '"+iqty+"' WHERE CARTID = '"+cursor4.getString(0)+"'";
+                    db.execSQL(updateQuery);
+                }
+                qty.setText(String.valueOf(iqty));
             }
-            qty.setText(String.valueOf(iqty));
+        }
+        else {
+            if (cursor4.getCount()>0){
+                while (cursor4.moveToNext()) {
+                    iqty = Integer.parseInt(cursor4.getString(4)) - 1;
+                    String updateQuery = "UPDATE CART SET QTY = '"+iqty+"' WHERE CARTID = '"+cursor4.getString(0)+"'";
+                    db.execSQL(updateQuery);
+                }
+                qty.setText(String.valueOf(iqty));
+            }
         }
     }
 }

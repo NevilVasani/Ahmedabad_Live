@@ -81,8 +81,6 @@ public class CartActivity extends AppCompatActivity {
         checkout = findViewById(R.id.cart_checkout);
 
 
-
-
         cartLists = new ArrayList<>(); // Initialize the ArrayList here
 
         String selectQuery = "SELECT * FROM CART WHERE USERID = '"+sp.getString(contentsp.USERID,"")+"' AND ORDERID = '0'";
@@ -115,6 +113,7 @@ public class CartActivity extends AppCompatActivity {
                 recyclerView.setAdapter(adaptor);
 
                 totalprice.setText("Total : "+contentsp.PRICE_SYMBOL + itotalcount);
+                sp.edit().putString(contentsp.TOTAL_CART_PRICE, String.valueOf(itotalcount)).commit();
 
                 dataview.setVisibility(View.VISIBLE);
                 emptyview.setVisibility(View.GONE);
@@ -123,5 +122,13 @@ public class CartActivity extends AppCompatActivity {
                 dataview.setVisibility(View.GONE);
                 emptyview.setVisibility(View.VISIBLE);
             }
+
+
+        checkout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new CommonMethod(CartActivity.this,CheckoutActivity.class);
+            }
+        });
     }
 }

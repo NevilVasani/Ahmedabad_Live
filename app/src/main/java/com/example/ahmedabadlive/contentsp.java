@@ -19,7 +19,7 @@ public class contentsp {
     public static final String SUB_CATEGORY_ID = "sub_category_id";
     public static final String SUB_CATEGORY_NAME = "sub_category_name";
     public static final String PRODUCT_ID = "product_id";
-    public static final String WISHLIST_ID = "wistlist_id";
+    public static final String TOTAL_CART_PRICE = "total_cart_price";
 
 
 }

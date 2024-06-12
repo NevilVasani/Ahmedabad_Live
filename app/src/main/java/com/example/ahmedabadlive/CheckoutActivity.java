@@ -1,10 +1,12 @@
 package com.example.ahmedabadlive;
 
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -22,9 +24,15 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.razorpay.Checkout;
+import com.razorpay.PaymentData;
+import com.razorpay.PaymentResultWithDataListener;
+
+import org.json.JSONObject;
+
 import kotlinx.coroutines.flow.SharedFlowSlot;
 
-public class CheckoutActivity extends AppCompatActivity {
+public class CheckoutActivity extends AppCompatActivity implements PaymentResultWithDataListener {
 
     EditText name,phone,eamil,address,pincode;
     Button pay_btn;
@@ -170,9 +178,80 @@ public class CheckoutActivity extends AppCompatActivity {
                         new CommonMethod(CheckoutActivity.this, DeshboardActivity.class);
                         finish();
                     }
+
+                    else {
+                        checkout();
+                    }
                 }
             }
         });
 
+    }
+
+    private void checkout() {
+
+            Checkout checkout = new Checkout();
+            checkout.setKeyID("<Your_test_key>");
+
+            checkout.setImage(R.drawable.ic_launcher_foreground);
+
+            /**
+             * Reference to current activity
+             */
+            final Activity activity = this;
+
+            /**
+             * Pass your payment options to the Razorpay Checkout as a JSONObject
+             */
+            try {
+                JSONObject options = new JSONObject();
+
+                options.put("name", getResources().getString(R.string.app_name));
+                options.put("description", "Reference No. #123456");
+                options.put("send_sms_hash", true);
+                options.put("allow_rotation", true);
+               // options.put("image", "http://example.com/image/rzp.jpg");
+                //options.put("order_id", "order_DBJOWzybf0sJbb");//from response of step 3.
+              //  options.put("theme.color", "#3399cc");
+                options.put("currency", "INR");
+                options.put("amount", String.valueOf(Integer.parseInt(sp.getString(contentsp.TOTAL_CART_PRICE,""))*100));//pass amount in currency subunits
+                options.put("prefill.email", sp.getString(contentsp.EMAIL,""));
+                options.put("prefill.contact",sp.getString(contentsp.PHONE,""));
+                JSONObject retryObj = new JSONObject();
+                retryObj.put("enabled", true);
+                retryObj.put("max_count", 4);
+                options.put("retry", retryObj);
+
+                checkout.open(activity, options);
+
+            } catch(Exception e) {
+                Log.e("Exeption_for_starting", "Error in starting Razorpay Checkout", e);
+            }
+    }
+
+    @Override
+    public void onPaymentSuccess(String s, PaymentData paymentData) {
+        Log.d("RESPONSE_PAYMENT_SUCCESS",s);
+        String insertQuery = "INSERT INTO CHECKOUT VALUES(NULL,'" + sp.getString(contentsp.USERID, "") + "','" + name.getText().toString() + "','" + phone.getText().toString() + "','" + eamil.getText().toString() + "','" + address.getText().toString() + "','" + pincode.getText().toString() + "','" + scity + "', '" + spayvia + "','"+s+"','" + sp.getString(contentsp.TOTAL_CART_PRICE, "") + "')";
+        db.execSQL(insertQuery);
+
+        String selectQuery = "SELECT MAX(ORDERID) FROM CHECKOUT LIMIT 1";
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.getCount() > 0) {
+            while (cursor.moveToNext()) {
+                String updateQuery = "UPDATE CART SET ORDERID = '" + cursor.getString(0) + "' WHERE USERID = '" + sp.getString(contentsp.USERID, "") + "' AND ORDERID = '0'";
+                db.execSQL(updateQuery);
+            }
+        }
+
+        new CommonMethod(CheckoutActivity.this, "Payment successfully");
+        new CommonMethod(CheckoutActivity.this, DeshboardActivity.class);
+        finish();
+    }
+
+    @Override
+    public void onPaymentError(int i, String s, PaymentData paymentData) {
+        Log.d("RESPONSE_PAYMENT_FAILED",s);
     }
 }

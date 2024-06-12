@@ -81,48 +81,7 @@ public class CartActivity extends AppCompatActivity {
         checkout = findViewById(R.id.cart_checkout);
 
 
-        cartLists = new ArrayList<>(); // Initialize the ArrayList here
-
-        String selectQuery = "SELECT * FROM CART WHERE USERID = '"+sp.getString(contentsp.USERID,"")+"' AND ORDERID = '0'";
-        Cursor cursor = db.rawQuery(selectQuery,null);
-
-            if (cursor.getCount() > 0) {
-                while (cursor.moveToNext()) {
-                    CartList list = new CartList();
-                    list.setCartId(cursor.getString(0));
-                    list.setQty(cursor.getString(4));
-
-                    String productQuery = "SELECT * FROM PRODUCTS WHERE PRODUCTSID = '" + cursor.getString(3) + "'";
-                    Cursor cursor1 = db.rawQuery(productQuery, null);
-
-                    if (cursor1.moveToNext()) {
-                        list.setProductId(cursor1.getString(0));
-                        list.setSubCategoryId(cursor1.getString(1));
-                        list.setCategoryId(cursor1.getString(2));
-                        list.setName(cursor1.getString(3));
-                        list.setImage(cursor1.getString(4));
-                        list.setDescription(cursor1.getString(5));
-                        list.setPrice(cursor1.getString(6));
-                        itotalcount += Integer.parseInt(cursor.getString(4)) * Integer.parseInt(cursor1.getString(6)) ;
-                    }
-                    cursor1.close();
-                    cartLists.add(list);
-                }
-                cursor.close();
-                CartAdaptor adaptor = new CartAdaptor(CartActivity.this, cartLists, sp, db);
-                recyclerView.setAdapter(adaptor);
-
-                totalprice.setText("Total : "+contentsp.PRICE_SYMBOL + itotalcount);
-                sp.edit().putString(contentsp.TOTAL_CART_PRICE, String.valueOf(itotalcount)).commit();
-
-                dataview.setVisibility(View.VISIBLE);
-                emptyview.setVisibility(View.GONE);
-            } else {
-                new CommonMethod(CartActivity.this, "Product not found");
-                dataview.setVisibility(View.GONE);
-                emptyview.setVisibility(View.VISIBLE);
-            }
-
+        loadcartdata();
 
         checkout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,5 +89,52 @@ public class CartActivity extends AppCompatActivity {
                 new CommonMethod(CartActivity.this,CheckoutActivity.class);
             }
         });
+    }
+
+    private void loadcartdata() {
+        itotalcount = 0;
+        cartLists = new ArrayList<>(); // Initialize the ArrayList here
+
+        String selectQuery = "SELECT * FROM CART WHERE USERID = '"+sp.getString(contentsp.USERID,"")+"' AND ORDERID = '0'";
+        Cursor cursor = db.rawQuery(selectQuery,null);
+
+        if (cursor.getCount() > 0) {
+            while (cursor.moveToNext()) {
+                CartList list = new CartList();
+                list.setCartId(cursor.getString(0));
+                list.setQty(cursor.getString(4));
+
+                String productQuery = "SELECT * FROM PRODUCTS WHERE PRODUCTSID = '" + cursor.getString(3) + "'";
+                Cursor cursor1 = db.rawQuery(productQuery, null);
+
+                if (cursor1.moveToNext()) {
+                    list.setProductId(cursor1.getString(0));
+                    list.setSubCategoryId(cursor1.getString(1));
+                    list.setCategoryId(cursor1.getString(2));
+                    list.setName(cursor1.getString(3));
+                    list.setImage(cursor1.getString(4));
+                    list.setDescription(cursor1.getString(5));
+                    list.setPrice(cursor1.getString(6));
+                    itotalcount += Integer.parseInt(cursor.getString(4)) * Integer.parseInt(cursor1.getString(6)) ;
+                }
+                cursor1.close();
+                cartLists.add(list);
+            }
+            cursor.close();
+            CartAdaptor adaptor = new CartAdaptor(CartActivity.this, cartLists, sp, db);
+            recyclerView.setAdapter(adaptor);
+
+            totalprice.setText("Total : "+contentsp.PRICE_SYMBOL + itotalcount);
+            sp.edit().putString(contentsp.TOTAL_CART_PRICE, String.valueOf(itotalcount)).commit();
+
+            dataview.setVisibility(View.VISIBLE);
+            emptyview.setVisibility(View.GONE);
+        } else {
+            new CommonMethod(CartActivity.this, "Product not found");
+            itotalcount = 0;
+            dataview.setVisibility(View.GONE);
+            emptyview.setVisibility(View.VISIBLE);
+        }
+
     }
 }

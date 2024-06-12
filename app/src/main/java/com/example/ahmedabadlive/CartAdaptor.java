@@ -2,6 +2,7 @@ package com.example.ahmedabadlive;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -136,6 +137,7 @@ public class CartAdaptor extends RecyclerView.Adapter<CartAdaptor.MyHolder> {
         }
         notifyDataSetChanged();
         CartActivity.totalprice.setText("Total : "+contentsp.PRICE_SYMBOL +String.valueOf(CartActivity.itotalcount));
+        sp.edit().putString(contentsp.TOTAL_CART_PRICE, String.valueOf(CartActivity.itotalcount)).commit();
     }
 
     @Override

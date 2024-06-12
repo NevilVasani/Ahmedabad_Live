@@ -191,7 +191,7 @@ public class CheckoutActivity extends AppCompatActivity implements PaymentResult
     private void checkout() {
 
             Checkout checkout = new Checkout();
-            checkout.setKeyID("<Your_test_key>");
+            checkout.setKeyID("rzp_test_wZIxniRrvMw4C2");
 
             checkout.setImage(R.drawable.ic_launcher_foreground);
 

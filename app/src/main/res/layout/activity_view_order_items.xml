@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ViewOrderItemsActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/_40sdp">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_5sdp"
+            app:cardCornerRadius="@dimen/_5sdp"
+            app:cardElevation="@dimen/_3sdp"
+            android:padding="@dimen/_10sdp">
+
+            <LinearLayout
+                android:id="@+id/vieworderitems_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/_3sdp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/vieworderitems_orderid"
+                        android:layout_weight="1"
+                        style="@style/textview_18_bold"/>
+
+                    <TextView
+                        android:id="@+id/vieworderitems_price"
+                        android:gravity="end"
+                        android:textStyle="bold"
+                        android:layout_weight="1"
+                        style="@style/textview_16"/>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/vieworderitems_address"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    style="@style/textview_16"/>
+
+                <TextView
+                    android:id="@+id/vieworderitems_payvia"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    style="@style/textview_14"/>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/vieworderitems_recyclerlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp">
+        </androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
+
+</ScrollView>

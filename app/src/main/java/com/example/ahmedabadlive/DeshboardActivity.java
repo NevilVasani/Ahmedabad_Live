@@ -19,8 +19,8 @@ import androidx.core.view.WindowInsetsCompat;
 public class DeshboardActivity extends AppCompatActivity {
 
     TextView text;
-    Button logout,catagory,wishlist,cart,myorders;
-    ImageView profile;
+    Button logout,myorders,catagory;
+    ImageView profile,wishlist,cart;
     SharedPreferences sp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

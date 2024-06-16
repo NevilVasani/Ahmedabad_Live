@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
     android:orientation="vertical"
+    android:background="#F5F5F5"
     tools:context=".DeshboardActivity">
 
 
@@ -13,18 +13,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/_50sdp"
-        android:background="@color/white"
+        android:layout_alignParentStart="true"
+        android:background="#F5F5F5"
         >
-
-        <ImageView
-            android:id="@+id/deshboard_Profile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/user_deshboard"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:background="@drawable/deshboard_user_border"
-            />
 
         <TextView
             style="@style/textview"
@@ -37,54 +28,136 @@
     </RelativeLayout>
 
 
-    <TextView
-        android:id="@+id/deshboard_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:layout_marginTop="@dimen/_50sdp"
-        android:textSize="@dimen/_20sdp"/>
-
-
-
-    <Button
-        android:id="@+id/deshboard_catagory"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_45sdp"
-        android:layout_marginHorizontal="@dimen/_35sdp"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:text="Catagory" />
+        android:layout_height="wrap_content">
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <Button
-        android:id="@+id/deshboard_wishlist"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_45sdp"
-        android:layout_marginHorizontal="@dimen/_35sdp"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:text="Wishlist" />
 
-    <Button
-        android:id="@+id/deshboard_cart"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_45sdp"
-        android:layout_marginHorizontal="@dimen/_35sdp"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:text="CART" />
+            <TextView
+                android:id="@+id/deshboard_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/_50sdp"
+                android:textSize="@dimen/_20sdp"/>
 
-    <Button
-        android:id="@+id/deshboard_myorder"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_45sdp"
-        android:layout_marginHorizontal="@dimen/_35sdp"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:text="My Orders" />
+            <Button
+                android:id="@+id/deshboard_catagory"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_45sdp"
+                android:layout_marginHorizontal="@dimen/_35sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:text="Catagory" />
 
-    <Button
-        android:id="@+id/deshboard_Logout"
+<!--            <Button-->
+<!--                android:id="@+id/deshboard_wishlist"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="@dimen/_45sdp"-->
+<!--                android:layout_marginHorizontal="@dimen/_35sdp"-->
+<!--                android:layout_marginTop="@dimen/_20sdp"-->
+<!--                android:text="Wishlist" />-->
+
+<!--            <Button-->
+<!--                android:id="@+id/deshboard_cart"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="@dimen/_45sdp"-->
+<!--                android:layout_marginHorizontal="@dimen/_35sdp"-->
+<!--                android:layout_marginTop="@dimen/_20sdp"-->
+<!--                android:text="CART" />-->
+
+            <Button
+                android:id="@+id/deshboard_myorder"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_45sdp"
+                android:layout_marginHorizontal="@dimen/_35sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:text="My Orders" />
+
+            <Button
+                android:id="@+id/deshboard_Logout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_45sdp"
+                android:layout_marginHorizontal="@dimen/_35sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:text="Logout" />
+
+
+        </LinearLayout>
+        
+    </RelativeLayout>
+    
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_45sdp"
-        android:layout_marginHorizontal="@dimen/_35sdp"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:text="Logout" />
-</LinearLayout>
+        android:layout_height="@dimen/_70sdp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/custom_tabbar"
+        android:elevation="@dimen/_8sdp"
+        android:orientation="horizontal"
+        android:padding="@dimen/_8sdp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:weightSum="4">
+
+            <ImageView
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:src="@drawable/home"
+                android:layout_weight="1"/>
+
+            <ImageView
+                android:id="@+id/deshboard_wishlist"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:src="@drawable/wishlist_empty"
+                app:tint="@android:color/darker_gray"
+                android:layout_weight="1"/>
+
+
+            <ImageView
+                android:id="@+id/deshboard_cart"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:src="@drawable/shoping_bag"
+                app:tint="@android:color/darker_gray"
+                android:layout_weight="1"/>
+
+            <ImageView
+                android:id="@+id/deshboard_Profile"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:padding="@dimen/_1sdp"
+                android:src="@drawable/user_icon"
+                app:tint="@android:color/darker_gray"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+</RelativeLayout>
+
+
+
+
+<!--<ImageView-->
+<!--android:id="@+id/deshboard_Profile"-->
+<!--android:layout_width="wrap_content"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:src="@drawable/user_deshboard"-->
+<!--android:layout_centerVertical="true"-->
+<!--android:layout_marginStart="@dimen/_10sdp"-->
+<!--android:background="@drawable/deshboard_user_border"-->
+<!--    />-->

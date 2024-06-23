@@ -92,6 +92,27 @@
         
     </RelativeLayout>
     
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_300sdp">
+        
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="category"
+            android:textSize="@dimen/_20sdp"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_30sdp"/>
+        
+    </RelativeLayout>
+    
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -146,6 +167,9 @@
 
 
     </RelativeLayout>
+    
+    
+    
 
 </RelativeLayout>
 

@@ -35,7 +35,18 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(sp.getString(contentsp.USERID,"").equalsIgnoreCase("")){
+//                if(sp.getString(contentsp.USERID,"").equalsIgnoreCase("")){
+//                    new CommonMethod(SplashActivity.this,MainActivity.class);
+//                    finish();
+//                }
+//                else {
+//                    new CommonMethod(SplashActivity.this,DeshboardActivity.class);
+//                    finish();
+//                }
+
+
+
+                if(sp.getString(contentsp.EMAIL,"").equalsIgnoreCase("")){
                     new CommonMethod(SplashActivity.this,MainActivity.class);
                     finish();
                 }

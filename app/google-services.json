@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "248322230523",
+    "project_id": "ahmedabad-live-6326e",
+    "storage_bucket": "ahmedabad-live-6326e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:248322230523:android:4f12f8e8fd546b3279885e",
+        "android_client_info": {
+          "package_name": "com.example.ahmedabadlive"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8bPLAy4chI7mFUDCwrQEiskDuanj2paI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

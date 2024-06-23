@@ -16,16 +16,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
 
+    FirebaseAuth auth;
     EditText username,password;
     TextView forgotpassword;
     Button login,signup;
@@ -39,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        auth = FirebaseAuth.getInstance();
 
         sp = getSharedPreferences(contentsp.PREF,MODE_PRIVATE);
 
@@ -85,48 +93,63 @@ public class MainActivity extends AppCompatActivity {
                     password.setError("Enter Password");
                 }else {
 
-                    String selectQuery = "SELECT * FROM USERS WHERE(USERNAME = '"+username.getText().toString().trim()+"' OR EMAIL = '"+username.getText().toString().trim()+"' OR PHONE = '"+username.getText().toString().trim()+"') AND PASSWORD = '"+password.getText().toString().trim()+"'";
-                    Cursor cursor = db.rawQuery(selectQuery,null);
+//                    String selectQuery = "SELECT * FROM USERS WHERE(USERNAME = '"+username.getText().toString().trim()+"' OR EMAIL = '"+username.getText().toString().trim()+"' OR PHONE = '"+username.getText().toString().trim()+"') AND PASSWORD = '"+password.getText().toString().trim()+"'";
+//                    Cursor cursor = db.rawQuery(selectQuery,null);
+//
+//
+//                    if (cursor.getCount()>0){
+//                        while (cursor.moveToNext()){
+//
+//                            String suserid = cursor.getString(0);
+//                            String susername = cursor.getString(1);
+//                            String sname = cursor.getString(2);
+//                            String sphone = cursor.getString(3);
+//                            String semail = cursor.getString(4);
+//                            String spassword = cursor.getString(5);
+//                            String sgender = cursor.getString(6);
+//                            String scity = cursor.getString(7);
+//
+//                            sp.edit().putString(contentsp.USERID,suserid).commit();
+//                            sp.edit().putString(contentsp.USERNAME,susername).commit();
+//                            sp.edit().putString(contentsp.NAME,sname).commit();
+//                            sp.edit().putString(contentsp.PHONE,sphone).commit();
+//                            sp.edit().putString(contentsp.EMAIL,semail).commit();
+//                            sp.edit().putString(contentsp.PASSWORD,spassword).commit();
+//                            sp.edit().putString(contentsp.GENDER,sgender).commit();
+//                            sp.edit().putString(contentsp.CITY,scity).commit();
+//
+//                        }
+//
+//                        System.out.println("Login successfully");
+//                        new CommonMethod(MainActivity.this, "Login successfully");
+//                        new CommonMethod(v, "Login successfully");
+//
+//
+//                        //Intent intent = new Intent(MainActivity.this, DeshboardActivity.class);
+//                        //MainActivity.this.startActivity(intent);
+//                        new CommonMethod(MainActivity.this,DeshboardActivity.class);
+//                        finish();
+//                    }
+//
+//                    else {
+//                        //Toast.makeText(MainActivity.this, "Username/password INCORRECT", Toast.LENGTH_SHORT).show();
+//                        new CommonMethod(MainActivity.this,  "Username/password INCORRECT");
+//                    }
 
-
-                    if (cursor.getCount()>0){
-                        while (cursor.moveToNext()){
-
-                            String suserid = cursor.getString(0);
-                            String susername = cursor.getString(1);
-                            String sname = cursor.getString(2);
-                            String sphone = cursor.getString(3);
-                            String semail = cursor.getString(4);
-                            String spassword = cursor.getString(5);
-                            String sgender = cursor.getString(6);
-                            String scity = cursor.getString(7);
-
-                            sp.edit().putString(contentsp.USERID,suserid).commit();
-                            sp.edit().putString(contentsp.USERNAME,susername).commit();
-                            sp.edit().putString(contentsp.NAME,sname).commit();
-                            sp.edit().putString(contentsp.PHONE,sphone).commit();
-                            sp.edit().putString(contentsp.EMAIL,semail).commit();
-                            sp.edit().putString(contentsp.PASSWORD,spassword).commit();
-                            sp.edit().putString(contentsp.GENDER,sgender).commit();
-                            sp.edit().putString(contentsp.CITY,scity).commit();
-
+                    auth.signInWithEmailAndPassword(username.getText().toString().trim(),password.getText().toString().trim()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(task.isSuccessful()){
+                                new CommonMethod(MainActivity.this, "Login successfully");
+                                sp.edit().putString(contentsp.EMAIL,username.getText().toString().trim()).commit();
+                                new CommonMethod(MainActivity.this,DeshboardActivity.class);
+                                finish();
+                            }
+                            else {
+                                new CommonMethod(MainActivity.this,  "Email/password INCORRECT");
+                            }
                         }
-
-                        System.out.println("Login successfully");
-                        new CommonMethod(MainActivity.this, "Login successfully");
-                        new CommonMethod(v, "Login successfully");
-
-
-                        //Intent intent = new Intent(MainActivity.this, DeshboardActivity.class);
-                        //MainActivity.this.startActivity(intent);
-                        new CommonMethod(MainActivity.this,DeshboardActivity.class);
-                        finish();
-                    }
-
-                    else {
-                        //Toast.makeText(MainActivity.this, "Username/password INCORRECT", Toast.LENGTH_SHORT).show();
-                        new CommonMethod(MainActivity.this,  "Username/password INCORRECT");
-                    }
+                    });
                 }
             }
         });

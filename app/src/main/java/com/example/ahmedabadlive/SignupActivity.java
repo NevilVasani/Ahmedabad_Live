@@ -1,10 +1,13 @@
 package com.example.ahmedabadlive;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,16 +21,32 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignupActivity extends AppCompatActivity {
+    FirebaseAuth auth;
+    FirebaseFirestore firestore;
 
-    EditText username,name,phone,eamil,password,confirmpassword;
+    EditText username,name,phone,email,password,confirmpassword;
     ImageView notvisible,visible,confirmvisible,confirmnotvisible;
     Button signup;
     RadioGroup gender;
@@ -46,10 +65,13 @@ public class SignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
+        auth = FirebaseAuth.getInstance();
+        firestore = FirebaseFirestore.getInstance();
+
         username = findViewById(R.id.signup_username);
         name = findViewById(R.id.signup_name);
         phone = findViewById(R.id.signup_phone);
-        eamil = findViewById(R.id.signup_email);
+        email = findViewById(R.id.signup_email);
         password = findViewById(R.id.signup_password);
         confirmpassword = findViewById(R.id.signup_confirmpassword);
         notvisible = findViewById(R.id.signup_not_visible);
@@ -63,6 +85,7 @@ public class SignupActivity extends AppCompatActivity {
 
         confirmnotvisible.setVisibility(View.GONE);
         notvisible.setVisibility(View.GONE);
+
 
         db = openOrCreateDatabase("ahmedabadlive_user.db",MODE_PRIVATE,null);
         String tablequery = "CREATE TABLE IF NOT EXISTS USERS(USERID INTEGER PRIMARY KEY AUTOINCREMENT,USERNAME VARCHAR(100),NAME VARCHAR(100),PHONE BIGINT(10),EMAIL VARCHAR(100),PASSWORD VARCHAR(20),GENDER VARCHAR(6),CITY VARCHAR(20))";
@@ -145,11 +168,11 @@ public class SignupActivity extends AppCompatActivity {
                     name.setError("Enter Name");
                 }else if (phone.getText().toString().trim().equals("")) {
                     phone.setError("Enter Phone No");
-                }else if (eamil.getText().toString().trim().equals("")) {
-                    eamil.setError("Enter Email");
+                }else if (email.getText().toString().trim().equals("")) {
+                    email.setError("Enter Email");
                 }
-                else if (!eamil.getText().toString().trim().matches(email_syntax)) {
-                    eamil.setError("Enter Email in proper way");
+                else if (!email.getText().toString().trim().matches(email_syntax)) {
+                    email.setError("Enter Email in proper way");
                 }
                 else if (password.getText().toString().trim().equals("")) {
                     password.setError("Enter Password");
@@ -174,20 +197,49 @@ public class SignupActivity extends AppCompatActivity {
                 }
                 else {
 
-                    String selectQuery = "SELECT * FROM USERS WHERE USERNAME = '"+username.getText().toString()+"' OR EMAIL = '"+eamil.getText().toString()+"' OR PHONE = '"+phone.getText().toString()+"'";
-                    Cursor cursor = db.rawQuery(selectQuery,null);
-                    if (cursor.getCount()>0){
-                        new CommonMethod(SignupActivity.this,"Username/email/phoneno already registerd");
-                        new CommonMethod(v,"Username/email/phoneno already registerd");
-                    }
-                    else {
-                        String insertQuery = "INSERT INTO USERS VALUES(NULL,'"+username.getText().toString()+"','"+name.getText().toString()+"','"+phone.getText().toString()+"','"+eamil.getText().toString()+"','"+password.getText().toString()+"','"+sgender+"','"+scity+"')";
-                        db.execSQL(insertQuery);
-                        System.out.println("Sign successfully");
-                        new CommonMethod(SignupActivity.this, "Signin successfully");
-                        new CommonMethod(v, "Sign successfully");
-                        onBackPressed();
-                    }
+
+//                    String selectQuery = "SELECT * FROM USERS WHERE USERNAME = '"+username.getText().toString()+"' OR EMAIL = '"+email.getText().toString()+"' OR PHONE = '"+phone.getText().toString()+"'";
+//                    Cursor cursor = db.rawQuery(selectQuery,null);
+//                    if (cursor.getCount()>0){
+//                        new CommonMethod(SignupActivity.this,"Username/email/phoneno already registerd");
+//                        new CommonMethod(v,"Username/email/phoneno already registerd");
+//                    }
+//                    else {
+//                        String insertQuery = "INSERT INTO USERS VALUES(NULL,'"+username.getText().toString()+"','"+name.getText().toString()+"','"+phone.getText().toString()+"','"+email.getText().toString()+"','"+password.getText().toString()+"','"+sgender+"','"+scity+"')";
+//                        db.execSQL(insertQuery);
+//                        System.out.println("Sign successfully");
+//                        new CommonMethod(SignupActivity.this, "Signin successfully");
+//                        new CommonMethod(v, "Sign successfully");
+//                        onBackPressed();
+//                    }
+
+
+
+                        auth.createUserWithEmailAndPassword(email.getText().toString().trim(),password.getText().toString().trim()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()){
+                                    new CommonMethod(SignupActivity.this, "Signin successfully in auth");
+                                    String userID = auth.getCurrentUser().getUid();
+                                    DocumentReference  documentReference = firestore.collection("Users").document(userID);
+                                    Map<String , Object> user = new HashMap<>();
+                                    user.put("username", username.getText().toString().trim());
+                                    user.put("name", name.getText().toString().trim());
+                                    user.put("phone", phone.getText().toString().trim());
+                                    user.put("email", email.getText().toString().trim());
+                                    user.put("gender", sgender);
+                                    user.put("city", scity);
+                                    documentReference.set(user);
+                                    onBackPressed();
+                                }
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                new CommonMethod(v, "Email address already exist!");
+                            }
+                        });
+
                 }
             }
         });
